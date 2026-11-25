@@ -1,0 +1,528 @@
+local StarterGui = game:GetService("StarterGui")
+
+-- Ждём 2 секунды после запуска
+task.wait(2)
+
+-- Показываем уведомление
+StarterGui:SetCore("SendNotification", {
+	Title = "Loader KurkaLusyaHub"; -- Заголовок
+	Text = "Wait a couple of seconds and your cheat will activate"; -- Описание
+	Icon = "rbxassetid://118435609581479"; -- Иконка
+	Duration = 3; -- Держится 3 секунды
+})
+
+-- Ждём 3 секунды, пока уведомление не пропадёт
+task.wait(3)
+
+-- Запускаем внешний скрипт
+loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua", true))()
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton1")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton2")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton3")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton4")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton5")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton6")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton7")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton8")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton9")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton10")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton11")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton12")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton13")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton14")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton15")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton16")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton17")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton18")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton19")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton20")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton21")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton22")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton23")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton24")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton25")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton26")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton27")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton28")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton29")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton30")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton31")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton32")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton33")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
+
+-- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ищем ваш ScreenGui, Frame и кнопку
+local screenGui = playerGui:WaitForChild("KurkaLusyaHubScreenGui")
+local mainFrame = screenGui:WaitForChild("KurkaLusyaFrame")
+local button = mainFrame:WaitForChild("KurkaLusyaButton34")
+
+-- Привязываем функцию к событию нажатия на кнопку
+button.MouseButton1Click:Connect(function()
+    -- Это код, который будет выполняться при нажатии
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua"))()
+end)
