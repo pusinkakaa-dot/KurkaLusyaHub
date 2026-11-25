@@ -15,7 +15,7 @@ StarterGui:SetCore("SendNotification", {
 task.wait(3)
 
 -- Запускаем внешний скрипт
-loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/-/refs/heads/main/New%20Script.lua", true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/KurkaLusyaHub/refs/heads/main/%D0%A5%D0%B0%D0%B1_GUI_%D0%97%D0%B0%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BA%D0%B0_34%D0%9A%D0%BD%D0%BE%D0%BF%D0%BA%D0%B8.txt", true))()
 
 -- Ждем, пока GUI с вашей кнопкой полностью загрузится в игре
 local player = game.Players.LocalPlayer
