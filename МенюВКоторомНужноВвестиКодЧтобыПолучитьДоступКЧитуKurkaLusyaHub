@@ -1,0 +1,140 @@
+local player = game:GetService("Players").LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "ActivationCheatKurkaLusyaHubScreenGui"
+screenGui.ResetOnSpawn = false -- меню НЕ исчезает после смерти
+screenGui.IgnoreGuiInset = true
+screenGui.DisplayOrder = 2147483647 -- максимальный приоритет отображения поверх других ScreenGui
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+screenGui.Parent = playerGui
+
+local frame = Instance.new("Frame")
+frame.Name = "ActivationCheatKurkaLusyaHubFrame"
+frame.AnchorPoint = Vector2.new(0.5, 0.5) -- точка привязки в центре
+frame.Position = UDim2.new(0.5, 0, 0.5, 0) -- ровно посередине экрана
+frame.Size = UDim2.new(0, 500, 0, 300)
+frame.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
+frame.BackgroundTransparency = 0
+frame.BorderSizePixel = 2
+frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+frame.ZIndex = 100
+frame.Parent = screenGui
+
+local textLabel = Instance.new("TextLabel")
+textLabel.Name = "ActivationCheatKurkaLusyaHubTextLabel"
+textLabel.Position = UDim2.new(0.0599999987, 0, 0.100000001, 0)
+textLabel.Size = UDim2.new(0, 380, 0, 50)
+textLabel.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
+textLabel.BackgroundTransparency = 0
+textLabel.BorderSizePixel = 2
+textLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+textLabel.Text = "Accessing a cheat via a key"
+textLabel.TextSize = 33
+textLabel.Font = Enum.Font.FredokaOne
+textLabel.TextColor3 = Color3.fromRGB(39, 39, 39)
+textLabel.TextStrokeTransparency = 0
+textLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+textLabel.TextXAlignment = Enum.TextXAlignment.Center
+textLabel.TextYAlignment = Enum.TextYAlignment.Center
+textLabel.TextWrapped = true
+textLabel.ZIndex = 101
+textLabel.Parent = frame
+
+local imageLabel = Instance.new("ImageLabel")
+imageLabel.Name = "ActivationCheatKurkaLusyaHubImageLabel"
+imageLabel.Position = UDim2.new(0.839999974, 0, 0.100000001, 0)
+imageLabel.Size = UDim2.new(0, 50, 0, 50)
+imageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+imageLabel.BackgroundTransparency = 0
+imageLabel.BorderSizePixel = 2
+imageLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+imageLabel.Image = "rbxassetid://133284587270196"
+imageLabel.ImageColor3 = Color3.fromRGB(255, 255, 255)
+imageLabel.ScaleType = Enum.ScaleType.Stretch
+imageLabel.ZIndex = 101
+imageLabel.Parent = frame
+
+local textBox = Instance.new("TextBox")
+textBox.Name = "ActivationCheatKurkaLusyaHubTextBox"
+textBox.Position = UDim2.new(0.0599999987, 0, 0.296666652, 0)
+textBox.Size = UDim2.new(0, 440, 0, 85)
+textBox.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
+textBox.BackgroundTransparency = 0
+textBox.BorderSizePixel = 2
+textBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+textBox.Text = ""
+textBox.PlaceholderText = "Enter the correct code to activate the KurkaLusyaHub cheat"
+textBox.PlaceholderColor3 = Color3.fromRGB(39, 39, 39)
+textBox.TextColor3 = Color3.fromRGB(39, 39, 39)
+textBox.TextStrokeTransparency = 0
+textBox.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+textBox.TextSize = 20
+textBox.Font = Enum.Font.FredokaOne
+textBox.TextXAlignment = Enum.TextXAlignment.Center
+textBox.TextYAlignment = Enum.TextYAlignment.Center
+textBox.TextWrapped = true
+textBox.ClearTextOnFocus = true
+textBox.TextEditable = true
+textBox.MultiLine = false
+textBox.ZIndex = 101
+textBox.Parent = frame
+
+local button1 = Instance.new("TextButton")
+button1.Name = "ActivationCheatKurkaLusyaHubTextButton1"
+button1.Position = UDim2.new(0.0599999987, 0, 0.616666675, 0)
+button1.Size = UDim2.new(0, 215, 0, 85)
+button1.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
+button1.BackgroundTransparency = 0
+button1.BorderSizePixel = 2
+button1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+button1.Text = "Go to Discord and buy a code there to activate the cheat"
+button1.TextSize = 14
+button1.Font = Enum.Font.FredokaOne
+button1.TextColor3 = Color3.fromRGB(39, 39, 39)
+button1.TextStrokeTransparency = 0
+button1.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button1.TextXAlignment = Enum.TextXAlignment.Center
+button1.TextYAlignment = Enum.TextYAlignment.Center
+button1.TextWrapped = true
+button1.AutoButtonColor = true
+button1.ZIndex = 101
+button1.Parent = frame
+
+local button2 = Instance.new("TextButton")
+button2.Name = "ActivationCheatKurkaLusyaHubTextButton2"
+button2.Position = UDim2.new(0.50999999, 0, 0.616666675, 0)
+button2.Size = UDim2.new(0, 215, 0, 85)
+button2.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
+button2.BackgroundTransparency = 0
+button2.BorderSizePixel = 2
+button2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+button2.Text = "Enter the code into the text, then click this button"
+button2.TextSize = 14
+button2.Font = Enum.Font.FredokaOne
+button2.TextColor3 = Color3.fromRGB(39, 39, 39)
+button2.TextStrokeTransparency = 0
+button2.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+button2.TextXAlignment = Enum.TextXAlignment.Center
+button2.TextYAlignment = Enum.TextYAlignment.Center
+button2.TextWrapped = true
+button2.AutoButtonColor = true
+button2.ZIndex = 101
+button2.Parent = frame
+
+-- кнопка 1: копирует текст
+button1.MouseButton1Click:Connect(function()
+	if setclipboard then
+		setclipboard("Неизвестный код")
+	end
+end)
+
+-- кнопка 2: при правильном коде удаляет GUI и запускает скрипт
+button2.MouseButton1Click:Connect(function()
+	if textBox.Text == "123" then
+		if screenGui then
+			screenGui:Destroy()
+		end
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/pusinkakaa-dot/KurkaLusyaHub/refs/heads/main/%D0%97%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%B6%D0%B8%D0%BA%D0%A7%D0%B8%D1%82%D0%B0KurkaLusyaHub.txt", true))()
+	end
+end)
