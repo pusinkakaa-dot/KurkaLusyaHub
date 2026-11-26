@@ -1,0 +1,303 @@
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
+local LocalPlayer = Players.LocalPlayer
+if not LocalPlayer then return end
+
+-- Настройки круга на курсоре (как у FOV аимбота) и текста под ним
+local CIRCLE_RADIUS_PX = 95            -- Радиус зоны проверки вокруг курсора (в пикселях)
+local RING_THICKNESS_PX = 2            -- Толщина линии круга в пикселях
+local RING_COLOR = Color3.fromRGB(0, 225, 255)
+local RING_TRANSPARENCY = 1            -- 1 = круг полностью невидимый (0 = сплошная линия)
+
+local MAX_DISTANCE_STUDS = math.huge   -- Бесконечная дистанция обнаружения игрока
+local RAYCAST_MAX_DISTANCE = 2000      -- Макс. длина луча проверки видимости (в студах)
+local CHECK_INTERVAL = 0.10            -- Как часто обновлять проверку и список игроков (сек)
+local TEXT_OFFSET_Y_PX = 120           -- Насколько пикселей ниже курсора показывать текст
+local TEXT_SIZE = 14                   -- Размер шрифта
+local LABEL_MAX_WIDTH_PX = 460         -- Максимальная ширина плашки (высота растёт автоматически под список)
+
+-- Переключатель Вкл / Выкл при каждом запуске через ReplicatedStorage
+local TOGGLE_ATTR = "CenterCircleVisState"
+local RUN_ID_ATTR = "CenterCircleVisRunId"
+
+local stateFolder = ReplicatedStorage:FindFirstChild("CenterCircleVisFolder")
+if not stateFolder then
+	stateFolder = Instance.new("Folder")
+	stateFolder.Name = "CenterCircleVisFolder"
+	stateFolder.Parent = ReplicatedStorage
+end
+
+local nextState = not (stateFolder:GetAttribute(TOGGLE_ATTR) == true)
+local runId = (stateFolder:GetAttribute(RUN_ID_ATTR) or 0) + 1
+
+stateFolder:SetAttribute(TOGGLE_ATTR, nextState)
+stateFolder:SetAttribute(RUN_ID_ATTR, runId)
+
+print(nextState and "Checking player(s) visibility via an invisible circle (same size as the aimbot's): 🟢 Enabled" or "Checking player(s) visibility via an invisible circle (same size as the aimbot's): 🔴 Disabled")
+
+local function isActiveRun(): boolean
+	return stateFolder:GetAttribute(TOGGLE_ATTR) == true
+		and stateFolder:GetAttribute(RUN_ID_ATTR) == runId
+end
+
+local GUI_NAME = "CenterCircleVisibilityGui"
+local connections: { RBXScriptConnection } = {}
+local statusLabel: TextLabel? = nil
+local circleRingFrame: Frame? = nil
+local screenGui: ScreenGui? = nil
+
+local function destroyGui()
+	if screenGui then
+		pcall(function()
+			screenGui:Destroy()
+		end)
+		screenGui = nil
+	end
+	statusLabel = nil
+	circleRingFrame = nil
+
+	local playerGui = LocalPlayer:FindFirstChildOfClass("PlayerGui")
+	if playerGui then
+		local existing = playerGui:FindFirstChild(GUI_NAME)
+		if existing then
+			pcall(function()
+				existing:Destroy()
+			end)
+		end
+	end
+end
+
+local function stopAll()
+	for _, conn in ipairs(connections) do
+		conn:Disconnect()
+	end
+	table.clear(connections)
+	destroyGui()
+end
+
+if not nextState then
+	stopAll()
+	return
+end
+
+stopAll()
+
+local function updateCursorGuiPositions()
+	local mousePos = UserInputService:GetMouseLocation()
+	if circleRingFrame and circleRingFrame.Parent then
+		circleRingFrame.Position = UDim2.fromOffset(mousePos.X, mousePos.Y)
+	end
+	if statusLabel and statusLabel.Parent then
+		statusLabel.Position = UDim2.fromOffset(mousePos.X, mousePos.Y + TEXT_OFFSET_Y_PX)
+	end
+end
+
+local function createOverlayGui()
+	destroyGui()
+
+	local playerGui = LocalPlayer:WaitForChild("PlayerGui", 5)
+	if not playerGui or not isActiveRun() then return end
+
+	local gui = Instance.new("ScreenGui")
+	gui.Name = GUI_NAME
+	gui.ResetOnSpawn = false
+	gui.IgnoreGuiInset = true
+	gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	gui.Parent = playerGui
+	screenGui = gui
+
+	local mousePos = UserInputService:GetMouseLocation()
+	local diameter = CIRCLE_RADIUS_PX * 2
+
+	local ringFrame = Instance.new("Frame")
+	ringFrame.Name = "CursorDetectionCircle"
+	ringFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+	ringFrame.Position = UDim2.fromOffset(mousePos.X, mousePos.Y)
+	ringFrame.Size = UDim2.fromOffset(diameter, diameter)
+	ringFrame.BackgroundTransparency = 1
+	ringFrame.BorderSizePixel = 0
+	ringFrame.Parent = gui
+
+	local ringCorner = Instance.new("UICorner")
+	ringCorner.CornerRadius = UDim.new(1, 0)
+	ringCorner.Parent = ringFrame
+
+	local ringStroke = Instance.new("UIStroke")
+	ringStroke.Thickness = RING_THICKNESS_PX
+	ringStroke.Color = RING_COLOR
+	ringStroke.Transparency = RING_TRANSPARENCY
+	ringStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	ringStroke.Parent = ringFrame
+
+	circleRingFrame = ringFrame
+
+	local label = Instance.new("TextLabel")
+	label.Name = "CursorBelowStatusLabel"
+	label.AnchorPoint = Vector2.new(0.5, 0)
+	label.Position = UDim2.fromOffset(mousePos.X, mousePos.Y + TEXT_OFFSET_Y_PX)
+	label.Size = UDim2.fromOffset(0, 0)
+	label.AutomaticSize = Enum.AutomaticSize.XY
+	label.BackgroundColor3 = Color3.fromRGB(15, 17, 22)
+	label.BackgroundTransparency = 0.55
+	label.BorderSizePixel = 0
+	label.Text = ""
+	label.Visible = false
+	label.TextColor3 = Color3.fromRGB(255, 255, 255)
+	label.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+	label.TextStrokeTransparency = 0.25
+	label.Font = Enum.Font.GothamBold
+	label.TextSize = TEXT_SIZE
+	label.LineHeight = 0.98
+	label.TextWrapped = false
+	label.Parent = gui
+
+	local padding = Instance.new("UIPadding")
+	padding.PaddingTop = UDim.new(0, 4)
+	padding.PaddingBottom = UDim.new(0, 4)
+	padding.PaddingLeft = UDim.new(0, 8)
+	padding.PaddingRight = UDim.new(0, 8)
+	padding.Parent = label
+
+	local sizeConstraint = Instance.new("UISizeConstraint")
+	sizeConstraint.MaxSize = Vector2.new(LABEL_MAX_WIDTH_PX, 9999)
+	sizeConstraint.Parent = label
+
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 6)
+	corner.Parent = label
+
+	statusLabel = label
+end
+
+createOverlayGui()
+
+local function getCharacterParts(player: Player): (Model?, BasePart?, BasePart?)
+	local char = player.Character
+	if not char then return nil, nil, nil end
+	local hum = char:FindFirstChildOfClass("Humanoid")
+	if not hum or hum.Health <= 0 then return nil, nil, nil end
+	local root = (char:FindFirstChild("HumanoidRootPart") or char:FindFirstChild("Torso") or char:FindFirstChild("UpperTorso")) :: BasePart?
+	local head = (char:FindFirstChild("Head") or root) :: BasePart?
+	if not root then return nil, nil, nil end
+	return char, root, head
+end
+
+local function isTargetExposedOutside(camera: Camera, targetChar: Model, targetPart: BasePart): boolean
+	local origin = camera.CFrame.Position
+	local targetPos = targetPart.Position
+	local delta = targetPos - origin
+	local dist = delta.Magnitude
+	if dist <= 0.01 then
+		return true
+	end
+
+	local rayDist = math.min(dist, RAYCAST_MAX_DISTANCE)
+	local params = RaycastParams.new()
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	local ignoreList: { Instance } = { targetChar }
+	if LocalPlayer.Character then
+		table.insert(ignoreList, LocalPlayer.Character)
+	end
+	params.FilterDescendantsInstances = ignoreList
+	params.IgnoreWater = true
+
+	local result = workspace:Raycast(origin, delta.Unit * rayDist, params)
+	return result == nil
+end
+
+local accumulator = 0
+
+-- Плавное следование кольца и плашки за курсором каждый кадр
+table.insert(connections, RunService.RenderStepped:Connect(function()
+	if not isActiveRun() then
+		stopAll()
+		return
+	end
+
+	if not statusLabel or not statusLabel.Parent or not circleRingFrame or not circleRingFrame.Parent then
+		createOverlayGui()
+	end
+
+	updateCursorGuiPositions()
+end))
+
+table.insert(connections, RunService.Heartbeat:Connect(function(dt: number)
+	if not isActiveRun() then
+		stopAll()
+		return
+	end
+
+	accumulator += dt
+	if accumulator < CHECK_INTERVAL then
+		return
+	end
+	accumulator = 0
+
+	if not statusLabel or not statusLabel.Parent or not circleRingFrame or not circleRingFrame.Parent then
+		createOverlayGui()
+		if not statusLabel then return end
+	end
+
+	local camera = workspace.CurrentCamera
+	if not camera then
+		statusLabel.Visible = false
+		return
+	end
+
+	local mousePos = UserInputService:GetMouseLocation()
+	local cursorX = mousePos.X
+	local cursorY = mousePos.Y
+	local radiusSq = CIRCLE_RADIUS_PX * CIRCLE_RADIUS_PX
+	local camPos = camera.CFrame.Position
+
+	local detectedEntries: { { username: string, isOutside: boolean } } = {}
+
+	for _, plr in ipairs(Players:GetPlayers()) do
+		if plr == LocalPlayer then continue end
+
+		local char, root, head = getCharacterParts(plr)
+		if not char or not root then continue end
+
+		local worldDist = (root.Position - camPos).Magnitude
+		if worldDist > MAX_DISTANCE_STUDS then continue end
+
+		local checkPart = head or root
+		local screenPos, onScreen = camera:WorldToViewportPoint(checkPart.Position)
+		if not onScreen or screenPos.Z <= 0 then continue end
+
+		local dx = screenPos.X - cursorX
+		local dy = screenPos.Y - cursorY
+		if (dx * dx + dy * dy) <= radiusSq then
+			local outside = isTargetExposedOutside(camera, char, checkPart)
+			table.insert(detectedEntries, {
+				username = plr.Name,
+				isOutside = outside,
+			})
+		end
+	end
+
+	if #detectedEntries == 0 then
+		statusLabel.Text = ""
+		statusLabel.Visible = false
+		return
+	end
+
+	table.sort(detectedEntries, function(a, b)
+		return a.username < b.username
+	end)
+
+	local lines: { string } = {}
+	for _, entry in ipairs(detectedEntries) do
+		local statusLabelText = if entry.isOutside
+			then "He is visible ✅"
+			else "He is not visible ❌"
+		table.insert(lines, "@" .. entry.username .. " | " .. statusLabelText)
+	end
+
+	statusLabel.Text = table.concat(lines, "\n")
+	updateCursorGuiPositions()
+	statusLabel.Visible = true
+end))
