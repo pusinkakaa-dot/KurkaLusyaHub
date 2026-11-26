@@ -1,0 +1,160 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+
+local STUD_TO_METER = 0.28 -- Перевод студов в метры (поставь 1, если нужно 1 к 1)
+local MAX_TRACK_METERS = 100 -- На 100 метрах и дальше цвет полностью зелёный
+
+-- Перевёрнутая ("лежачая") форма палочки со скруглёнными краями
+local BAR_WIDTH = 120
+local BAR_HEIGHT = 28
+local CORNER_OFFSET = 2 -- Насколько близко к правому нижнему углу (0 = вплотную)
+
+local screenGui = nil
+local indicatorFrame = nil
+local distanceLabel = nil
+local updateConnection = nil
+
+local function clearIndicator()
+	if screenGui then
+		screenGui:Destroy()
+		screenGui = nil
+		indicatorFrame = nil
+		distanceLabel = nil
+	end
+
+	local playerGui = LocalPlayer:FindFirstChildOfClass("PlayerGui")
+	if playerGui then
+		local existing = playerGui:FindFirstChild("ClosestPlayerIndicatorGUI")
+		if existing then
+			existing:Destroy()
+		end
+	end
+end
+
+local function stopIndicator()
+	_G.ClosestIndicatorActive = false
+
+	if updateConnection then
+		updateConnection:Disconnect()
+		updateConnection = nil
+	end
+
+	clearIndicator()
+	print("🔴 An indicator for the nearest player—the one in the closest proximity to you: Disabled")
+end
+
+local function createIndicator()
+	clearIndicator()
+
+	local playerGui = LocalPlayer:FindFirstChildOfClass("PlayerGui")
+	if not playerGui then return end
+
+	local gui = Instance.new("ScreenGui")
+	gui.Name = "ClosestPlayerIndicatorGUI"
+	gui.ResetOnSpawn = false
+	gui.IgnoreGuiInset = true
+	gui.Parent = playerGui
+
+	-- Палочка максимально близко к правому нижнему углу
+	local frame = Instance.new("Frame")
+	frame.Name = "IndicatorBar"
+	frame.AnchorPoint = Vector2.new(1, 1)
+	frame.Position = UDim2.new(1, -CORNER_OFFSET, 1, -CORNER_OFFSET)
+	frame.Size = UDim2.fromOffset(BAR_WIDTH, BAR_HEIGHT)
+	frame.BackgroundColor3 = Color3.fromRGB(0, 255, 85)
+	frame.BorderSizePixel = 0
+	frame.Parent = gui
+
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0.5, 0)
+	corner.Parent = frame
+
+	local stroke = Instance.new("UIStroke")
+	stroke.Color = Color3.fromRGB(255, 255, 255)
+	stroke.Thickness = 2.5
+	stroke.Parent = frame
+
+	local label = Instance.new("TextLabel")
+	label.Name = "DistLabel"
+	label.Size = UDim2.fromScale(1, 1)
+	label.Position = UDim2.fromScale(0, 0)
+	label.BackgroundTransparency = 1
+	label.Text = "--"
+	label.TextColor3 = Color3.fromRGB(255, 255, 255)
+	label.TextStrokeTransparency = 0
+	label.TextScaled = true
+	label.Font = Enum.Font.GothamBlack
+	label.Parent = frame
+
+	local textPadding = Instance.new("UIPadding")
+	textPadding.PaddingLeft = UDim.new(0, 6)
+	textPadding.PaddingRight = UDim.new(0, 6)
+	textPadding.PaddingTop = UDim.new(0, 2)
+	textPadding.PaddingBottom = UDim.new(0, 2)
+	textPadding.Parent = label
+
+	screenGui = gui
+	indicatorFrame = frame
+	distanceLabel = label
+end
+
+local function getClosestMeters()
+	local myChar = LocalPlayer.Character
+	local myRoot = myChar and myChar:FindFirstChild("HumanoidRootPart")
+	if not myRoot then return nil end
+
+	local closestStuds = math.huge
+
+	for _, player in ipairs(Players:GetPlayers()) do
+		if player ~= LocalPlayer and player.Character then
+			local targetRoot = player.Character:FindFirstChild("HumanoidRootPart")
+			if targetRoot then
+				local dist = (myRoot.Position - targetRoot.Position).Magnitude
+				if dist < closestStuds then
+					closestStuds = dist
+				end
+			end
+		end
+	end
+
+	if closestStuds == math.huge then
+		return nil
+	end
+
+	return closestStuds * STUD_TO_METER
+end
+
+local function startIndicator()
+	_G.ClosestIndicatorActive = true
+	print("🟢 An indicator for the nearest player—the one in the closest proximity to you: Enabled")
+	print("What does this feature do? It shows how far away the closest players are")
+
+	createIndicator()
+
+	local greenColor = Color3.fromRGB(0, 255, 85)
+	local redColor = Color3.fromRGB(255, 35, 35)
+
+	updateConnection = RunService.RenderStepped:Connect(function()
+		if not _G.ClosestIndicatorActive or not indicatorFrame or not distanceLabel then return end
+
+		local closestMeters = getClosestMeters()
+		if not closestMeters then
+			indicatorFrame.BackgroundColor3 = greenColor
+			distanceLabel.Text = "--"
+			return
+		end
+
+		local t = math.clamp(closestMeters / MAX_TRACK_METERS, 0, 1)
+		local blendedColor = redColor:Lerp(greenColor, t)
+
+		indicatorFrame.BackgroundColor3 = blendedColor
+		distanceLabel.Text = tostring(math.floor(closestMeters))
+	end)
+end
+
+if _G.ClosestIndicatorActive then
+	stopIndicator()
+else
+	startIndicator()
+end

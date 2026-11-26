@@ -1,0 +1,217 @@
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+
+local LocalPlayer = Players.LocalPlayer
+if not LocalPlayer then return end
+
+-- Настройки снегопада из текстуры (много + чуть-чуть большие)
+local SNOW_TEXTURE_ID = "rbxassetid://118435609581479"
+local FLAKE_COUNT = 340                -- Много снежинок для плотного снегопада
+local SPAWN_RADIUS_XZ = 140            -- Большой радиус по горизонтали, чтобы снег был везде вокруг
+local SPAWN_HEIGHT_ABOVE = 65          -- Высота появления снежинок над камерой
+local FALL_DEPTH_BELOW = 35            -- Насколько ниже камеры снежинка пересоздаётся
+local FALL_SPEED_MIN = 5.5             -- Мин. скорость падения (студов/сек)
+local FALL_SPEED_MAX = 11.5            -- Макс. скорость падения (студов/сек)
+local ROTATION_SPEED_MIN = 35          -- Мин. скорость вращения (градусов/сек)
+local ROTATION_SPEED_MAX = 110         -- Макс. скорость вращения (градусов/сек)
+local SWAY_AMPLITUDE = 2.2             -- Амплитуда плавного покачивания в стороны
+local FLAKE_SIZE_MIN = 0.70            -- Мин. размер снежинки (чуть-чуть больше)
+local FLAKE_SIZE_MAX = 1.35            -- Макс. размер снежинки (чуть-чуть больше)
+
+-- Переключатель Вкл / Выкл при каждом запуске через ReplicatedStorage
+local TOGGLE_ATTR = "SnowfallTextureState"
+local RUN_ID_ATTR = "SnowfallTextureRunId"
+
+local stateFolder = ReplicatedStorage:FindFirstChild("SnowfallTextureFolder")
+if not stateFolder then
+	stateFolder = Instance.new("Folder")
+	stateFolder.Name = "SnowfallTextureFolder"
+	stateFolder.Parent = ReplicatedStorage
+end
+
+local nextState = not (stateFolder:GetAttribute(TOGGLE_ATTR) == true)
+local runId = (stateFolder:GetAttribute(RUN_ID_ATTR) or 0) + 1
+
+stateFolder:SetAttribute(TOGGLE_ATTR, nextState)
+stateFolder:SetAttribute(RUN_ID_ATTR, runId)
+
+print(nextState and "Snow made from chicken photo textures: 🟢 Enabled" or "Snow made from chicken photo textures: 🔴 Disabled")
+
+local function isActiveRun(): boolean
+	return stateFolder:GetAttribute(TOGGLE_ATTR) == true
+		and stateFolder:GetAttribute(RUN_ID_ATTR) == runId
+end
+
+local CONTAINER_NAME = "SnowfallTextureContainer"
+
+type Snowflake = {
+	part: Part,
+	imageLabel: ImageLabel,
+	anchorX: number,
+	anchorZ: number,
+	y: number,
+	fallSpeed: number,
+	rotSpeed: number,
+	rotationDeg: number,
+	swayPhase: number,
+	swayFreq: number,
+}
+
+local connections: { RBXScriptConnection } = {}
+local snowflakes: { Snowflake } = {}
+local containerFolder: Folder? = nil
+
+local function clearSnowflakes()
+	for _, flake in ipairs(snowflakes) do
+		pcall(function()
+			if flake.part then
+				flake.part:Destroy()
+			end
+		end)
+	end
+	table.clear(snowflakes)
+
+	if containerFolder then
+		pcall(function()
+			containerFolder:Destroy()
+		end)
+		containerFolder = nil
+	end
+
+	local existing = workspace:FindFirstChild(CONTAINER_NAME)
+	if existing then
+		pcall(function()
+			existing:Destroy()
+		end)
+	end
+end
+
+local function stopAll()
+	for _, conn in ipairs(connections) do
+		conn:Disconnect()
+	end
+	table.clear(connections)
+	clearSnowflakes()
+end
+
+if not nextState then
+	stopAll()
+	return
+end
+
+stopAll()
+
+local folder = Instance.new("Folder")
+folder.Name = CONTAINER_NAME
+folder.Parent = workspace
+containerFolder = folder
+
+local function randomRange(minVal: number, maxVal: number): number
+	return minVal + math.random() * (maxVal - minVal)
+end
+
+local function spawnFlake(camPos: Vector3, randomHeight: boolean): Snowflake
+	local size = randomRange(FLAKE_SIZE_MIN, FLAKE_SIZE_MAX)
+	local angle = randomRange(0, math.pi * 2)
+	local radius = math.sqrt(math.random()) * SPAWN_RADIUS_XZ
+
+	local anchorX = camPos.X + math.cos(angle) * radius
+	local anchorZ = camPos.Z + math.sin(angle) * radius
+	local y = if randomHeight
+		then camPos.Y + randomRange(-FALL_DEPTH_BELOW * 0.5, SPAWN_HEIGHT_ABOVE)
+		else camPos.Y + randomRange(SPAWN_HEIGHT_ABOVE * 0.65, SPAWN_HEIGHT_ABOVE)
+
+	local part = Instance.new("Part")
+	part.Name = "SnowflakePart"
+	part.Size = Vector3.new(0.05, 0.05, 0.05)
+	part.Transparency = 1
+	part.Anchored = true
+	part.CanCollide = false
+	part.CanTouch = false
+	part.CanQuery = false
+	part.CastShadow = false
+	part.Position = Vector3.new(anchorX, y, anchorZ)
+	part.Parent = folder
+
+	local billboard = Instance.new("BillboardGui")
+	billboard.Name = "SnowflakeBillboard"
+	billboard.Size = UDim2.fromScale(size, size)
+	billboard.AlwaysOnTop = false
+	billboard.LightInfluence = 0
+	billboard.Parent = part
+
+	local imageLabel = Instance.new("ImageLabel")
+	imageLabel.Name = "SnowflakeImage"
+	imageLabel.Size = UDim2.fromScale(1, 1)
+	imageLabel.BackgroundTransparency = 1
+	imageLabel.Image = SNOW_TEXTURE_ID
+	imageLabel.ImageTransparency = randomRange(0.05, 0.25)
+	imageLabel.Rotation = randomRange(0, 360)
+	imageLabel.Parent = billboard
+
+	local rotDir = if math.random() < 0.5 then -1 else 1
+
+	return {
+		part = part,
+		imageLabel = imageLabel,
+		anchorX = anchorX,
+		anchorZ = anchorZ,
+		y = y,
+		fallSpeed = randomRange(FALL_SPEED_MIN, FALL_SPEED_MAX),
+		rotSpeed = randomRange(ROTATION_SPEED_MIN, ROTATION_SPEED_MAX) * rotDir,
+		rotationDeg = imageLabel.Rotation,
+		swayPhase = randomRange(0, math.pi * 2),
+		swayFreq = randomRange(0.9, 1.8),
+	}
+end
+
+do
+	local cam = workspace.CurrentCamera
+	local startPos = if cam then cam.CFrame.Position else Vector3.zero
+	for _ = 1, FLAKE_COUNT do
+		table.insert(snowflakes, spawnFlake(startPos, true))
+	end
+end
+
+local elapsed = 0
+
+table.insert(connections, RunService.RenderStepped:Connect(function(dt: number)
+	if not isActiveRun() then
+		stopAll()
+		return
+	end
+
+	local camera = workspace.CurrentCamera
+	if not camera then return end
+
+	local clampedDt = math.min(dt, 0.1)
+	elapsed += clampedDt
+	local camPos = camera.CFrame.Position
+	local minY = camPos.Y - FALL_DEPTH_BELOW
+	local maxRadiusSq = (SPAWN_RADIUS_XZ + 15) ^ 2
+
+	for i, flake in ipairs(snowflakes) do
+		flake.y -= flake.fallSpeed * clampedDt
+		flake.rotationDeg = (flake.rotationDeg + flake.rotSpeed * clampedDt) % 360
+
+		local swayX = math.sin(elapsed * flake.swayFreq + flake.swayPhase) * SWAY_AMPLITUDE
+		local swayZ = math.cos(elapsed * (flake.swayFreq * 0.85) + flake.swayPhase) * SWAY_AMPLITUDE
+
+		local dx = flake.anchorX - camPos.X
+		local dz = flake.anchorZ - camPos.Z
+		local distSq = dx * dx + dz * dz
+
+		if flake.y < minY or distSq > maxRadiusSq then
+			pcall(function()
+				flake.part:Destroy()
+			end)
+			snowflakes[i] = spawnFlake(camPos, false)
+		else
+			pcall(function()
+				flake.part.Position = Vector3.new(flake.anchorX + swayX, flake.y, flake.anchorZ + swayZ)
+				flake.imageLabel.Rotation = flake.rotationDeg
+			end)
+		end
+	end
+end))

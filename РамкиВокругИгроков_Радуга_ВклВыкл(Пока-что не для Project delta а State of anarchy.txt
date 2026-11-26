@@ -1,0 +1,146 @@
+﻿-- Сервисы
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+
+local LocalPlayer = Players.LocalPlayer
+if not LocalPlayer then
+	warn("LocalPlayer не найден")
+	return
+end
+
+-- 1. ПЕРЕКЛЮЧАТЕЛЬ СОСТОЯНИЯ (Вкл / Выкл при каждом запуске)
+local TOGGLE_ATTRIBUTE = "GameRainbowESPState"
+local RUN_ID_ATTRIBUTE = "GameRainbowESPRunId"
+
+local stateFolder = ReplicatedStorage:FindFirstChild("ESPStateFolder")
+if not stateFolder then
+	stateFolder = Instance.new("Folder")
+	stateFolder.Name = "ESPStateFolder"
+	stateFolder.Parent = ReplicatedStorage
+end
+
+local savedState = stateFolder:GetAttribute(TOGGLE_ATTRIBUTE)
+local currentState: boolean
+if savedState == nil then
+	currentState = true -- Первый запуск: включено
+else
+	currentState = not savedState -- Следующие запуски: меняем на противоположное
+end
+
+-- Обновляем состояние и уникальный ID запуска, чтобы старые циклы сразу останавливались
+local runId = (stateFolder:GetAttribute(RUN_ID_ATTRIBUTE) or 0) + 1
+stateFolder:SetAttribute(RUN_ID_ATTRIBUTE, runId)
+stateFolder:SetAttribute(TOGGLE_ATTRIBUTE, currentState)
+
+print(currentState and "The BOX of all players except you are shown: 🟢 Enabled" or "The BOX of all players except you are shown: 🔴 Disabled")
+
+local function isActiveRun(): boolean
+	return stateFolder:GetAttribute(TOGGLE_ATTRIBUTE) == true
+		and stateFolder:GetAttribute(RUN_ID_ATTRIBUTE) == runId
+end
+
+-- Функция очистки всех коробок
+local function clearAllBoxes()
+	for _, player in ipairs(Players:GetPlayers()) do
+		if player.Character then
+			local hrp = player.Character:FindFirstChild("HumanoidRootPart")
+			if hrp then
+				local oldBox = hrp:FindFirstChild("ESP_Box_GUI")
+				if oldBox then
+					oldBox:Destroy()
+				end
+			end
+		end
+	end
+end
+
+-- Если при этом запуске ESP выключен — чистим и останавливаем скрипт
+if not currentState then
+	clearAllBoxes()
+	return
+end
+
+-- На всякий случай чистим старые коробки перед стартом нового цикла
+clearAllBoxes()
+
+-- 2. СОЗДАНИЕ КОРОБКИ
+local allStrokes: { UIStroke } = {}
+
+local function createBoxESP(character: Model)
+	local hrp = character:FindFirstChild("HumanoidRootPart")
+	if not hrp then
+		return
+	end
+
+	local oldBox = hrp:FindFirstChild("ESP_Box_GUI")
+	if oldBox then
+		oldBox:Destroy()
+	end
+
+	local billboard = Instance.new("BillboardGui")
+	billboard.Name = "ESP_Box_GUI"
+	billboard.Adornee = hrp
+	billboard.AlwaysOnTop = true
+	billboard.Size = UDim2.new(4.5, 0, 6, 0)
+	billboard.StudsOffset = Vector3.new(0, -0.5, 0)
+	billboard.Parent = hrp
+
+	local frame = Instance.new("Frame")
+	frame.Size = UDim2.new(1, 0, 1, 0)
+	frame.BackgroundTransparency = 1
+	frame.Parent = billboard
+
+	local stroke = Instance.new("UIStroke")
+	stroke.Thickness = 2
+	stroke.Parent = frame
+
+	table.insert(allStrokes, stroke)
+end
+
+-- Функция полного обновления коробок у всех игроков
+local function refreshAllPlayers()
+	table.clear(allStrokes)
+	for _, player in ipairs(Players:GetPlayers()) do
+		if player ~= LocalPlayer and player.Character then
+			createBoxESP(player.Character)
+		end
+	end
+end
+
+-- 3. ПЛАВНАЯ РАДУЖНАЯ АНИМАЦИЯ (каждый кадр)
+local hue = 0
+local renderConn: RBXScriptConnection
+renderConn = RunService.RenderStepped:Connect(function(deltaTime)
+	if not isActiveRun() then
+		renderConn:Disconnect()
+		return
+	end
+
+	hue = (hue + deltaTime * 0.5) % 1
+	local rainbowColor = Color3.fromHSV(hue, 1, 1)
+
+	for _, stroke in ipairs(allStrokes) do
+		if stroke and stroke.Parent then
+			stroke.Color = rainbowColor
+		end
+	end
+end)
+
+-- 4. ЦИКЛ ОБНОВЛЕНИЯ КАЖДЫЕ 3 СЕКУНДЫ
+task.spawn(function()
+	while isActiveRun() do
+		refreshAllPlayers()
+
+		local elapsed = 0
+		while elapsed < 3 do
+			if not isActiveRun() then
+				clearAllBoxes()
+				return
+			end
+			elapsed += task.wait(0.1)
+		end
+	end
+
+	clearAllBoxes()
+end)
