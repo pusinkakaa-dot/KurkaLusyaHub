@@ -23,6 +23,7 @@ local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "KurkaLusyaHubScreenGui"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = playerGui
+screenGui.DisplayOrder = 999999999
 
 -- Frame
 local frame = Instance.new("Frame")
